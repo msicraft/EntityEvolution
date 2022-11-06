@@ -1,0 +1,38 @@
+config-version: 1  #don't touch this
+
+Setting:
+  Enabled: false
+  Evolution-Chance: 0.01
+  Check-Nearby-Player: #Allow evolution only when there is a player nearby
+    Enabled: false
+    Radius: 10
+  BlackList:
+    #- ender_dragon
+
+#Type is a way to add stats
+#Available values = [ADD_NUMBER, ADD_SCALAR, MULTIPLY_SCALAR_1]
+Evolution-Setting:  #1 = 100%, 0.5 = 50%
+  Health:
+    Enabled: false
+    Type: ADD_SCALAR
+    Value: 0.2
+  Damage:
+    Enabled: false
+    Type: ADD_SCALAR
+    Value: 0.1
+  Armor:
+    Enabled: false
+    Type: ADD_NUMBER
+    Value: 1
+  ArmorToughness:
+    Enabled: false
+    Type: ADD_NUMBER
+    Value: 0.5
+  MovementSpeed:
+    Enabled: false
+    Type: ADD_SCALAR
+    Value: 0.01
+  KnockbackResistance:
+    Enabled: false
+    Type: ADD_NUMBER
+    Value: 0.01
