@@ -77,7 +77,7 @@ public class EntitySpawn implements Listener {
                             }
                         }
                         if (attributeCount == -1) {
-                            Bukkit.getConsoleSender().sendMessage(EntityEvolution.getPrefix() + ChatColor.RED + " Invalid config attribute: " + ChatColor.GREEN + attributeCount);
+                            Bukkit.getConsoleSender().sendMessage(EntityEvolution.getPrefix() + ChatColor.RED + " Invalid config attribute: " + ChatColor.GREEN + " Attribute: " + attributeType + " | " +attributeCount);
                             continue;
                         }
                         if (type == null || !evolutionTypeList.contains(type)) {

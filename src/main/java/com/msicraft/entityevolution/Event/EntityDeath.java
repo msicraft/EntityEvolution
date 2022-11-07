@@ -67,7 +67,7 @@ public class EntityDeath implements Listener {
                 if (countS != null) {
                     value = Integer.parseInt(countS);
                 }
-                Bukkit.getPluginManager().callEvent(new EvolutionEntityDeathEvent(livingEntity.getType(), value));
+                Bukkit.getPluginManager().callEvent(new EvolutionEntityDeathEvent(livingEntity, value));
             }
         }
     }

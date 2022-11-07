@@ -1,6 +1,6 @@
 package com.msicraft.entityevolution.API.CustomEvent;
 
-import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -8,12 +8,20 @@ public class EvolutionEntityDeathEvent extends Event {
 
     private final static HandlerList handlers = new HandlerList();
 
-    private EntityType entityType;
+    private LivingEntity livingEntity;
     private int count;
 
-    public EvolutionEntityDeathEvent(EntityType entityType, int count) {
-        this.entityType = entityType;
+    public EvolutionEntityDeathEvent(LivingEntity livingEntity, int count) {
+        this.livingEntity = livingEntity;
         this.count = count;
+    }
+
+    public LivingEntity getLivingEntity() {
+        return livingEntity;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     @Override
