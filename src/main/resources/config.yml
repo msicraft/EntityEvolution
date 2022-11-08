@@ -6,6 +6,9 @@ Setting:
   Check-Nearby-Player: #Allow evolution only when there is a player nearby
     Enabled: false
     Radius: 10
+  Death-Entity-Data: #If true, save attribute values for entities. / Interval, 12000 ticks = 10 minutes
+    Enabled: false
+    Interval: 12000
   BlackList:
     #- ender_dragon
 

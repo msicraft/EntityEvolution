@@ -15,6 +15,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class EntityDeath implements Listener {
@@ -67,6 +68,7 @@ public class EntityDeath implements Listener {
                 if (countS != null) {
                     value = Integer.parseInt(countS);
                 }
+                utils.saveVanillaEntityData(livingEntity);
                 Bukkit.getPluginManager().callEvent(new EvolutionEntityDeathEvent(livingEntity, value));
             }
         }

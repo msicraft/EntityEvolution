@@ -1,10 +1,13 @@
 package com.msicraft.entityevolution.Command;
 
 import com.msicraft.entityevolution.EntityEvolution;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+
+import java.util.ArrayList;
 
 public class MainCommand implements CommandExecutor {
 
@@ -29,6 +32,13 @@ public class MainCommand implements CommandExecutor {
                             if (sender.isOp()) {
                                 EntityEvolution.getPlugin().dataFilesReload();
                                 sender.sendMessage(EntityEvolution.getPrefix() + ChatColor.GREEN + " Plugin config reloaded");
+                            }
+                        }
+                    }
+                    case "test" -> {
+                        if (args.length == 1) {
+                            for (String a : EntityEvolution.getPlugin().getVanillaMobLastData().keySet()) {
+                                Bukkit.getServer().broadcastMessage(a + " : " + EntityEvolution.getPlugin().getVanillaMobLastData().get(a));
                             }
                         }
                     }

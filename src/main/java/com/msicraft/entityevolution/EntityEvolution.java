@@ -18,25 +18,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public final class EntityEvolution extends JavaPlugin {
 
     private static EntityEvolution plugin;
-
     protected FileConfiguration config;
-
     public static EntityData entityData;
 
     public static EntityEvolution getPlugin() {
         return plugin;
     }
-
     public static String getPrefix() {
         return "[Entity Evolution]";
+    }
+
+    private HashMap<String, String> vanillaMobLastData = new HashMap<>();
+    public HashMap<String, String> getVanillaMobLastData() {
+        return vanillaMobLastData;
     }
 
     public ArrayList<String> getRegisterEntityList() {

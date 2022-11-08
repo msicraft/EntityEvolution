@@ -2,6 +2,7 @@ package com.msicraft.entityevolution.Event;
 
 import com.msicraft.entityevolution.API.CustomEvent.EvolutionEntitySpawnEvent;
 import com.msicraft.entityevolution.API.EvolutionUtils;
+import com.msicraft.entityevolution.AttributeUtils;
 import com.msicraft.entityevolution.EntityEvolution;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 public class EntitySpawn implements Listener {
 
     private EvolutionUtils utils = new EvolutionUtils();
+    private AttributeUtils attributeUtils = new AttributeUtils();
 
     private final ArrayList<String> evolutionTypeList = new ArrayList<>(Arrays.asList("ADD_NUMBER", "ADD_SCALAR", "MULTIPLY_SCALAR_1"));
     private final ArrayList<String> evolutionAttribute = new ArrayList<>(Arrays.asList("GENERIC_MAX_HEALTH", "GENERIC_ATTACK_DAMAGE", "GENERIC_ARMOR", "GENERIC_ARMOR_TOUGHNESS",
