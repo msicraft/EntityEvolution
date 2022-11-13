@@ -41,8 +41,11 @@ public class EvolutionUtils {
         return check;
     }
 
-    public void registerBaseEntityData(LivingEntity livingEntity) {
+    public void registerBaseEntityData(LivingEntity livingEntity, String tag) {
         String type = livingEntity.getType().toString().toUpperCase();
+        if (livingEntity.getCustomName() != null) {
+            type = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
+        }
         double baseHealth = attributeUtils.getBaseHealth(livingEntity);
         double baseDamage = attributeUtils.getBaseDamage(livingEntity);
         double baseArmor = attributeUtils.getBaseArmor(livingEntity);
@@ -51,11 +54,15 @@ public class EvolutionUtils {
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".BaseDamage", baseDamage);
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".BaseArmor", baseArmor);
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".BaseArmorToughness", baseArmorToughness);
+        EntityEvolution.entityData.getConfig().set("Entity." + type + ".Tag", tag);
         EntityEvolution.entityData.saveConfig();
     }
 
     public void addEvolutionCount(LivingEntity livingEntity, int count) {
         String type = livingEntity.getType().toString().toUpperCase();
+        if (livingEntity.getCustomName() != null) {
+            type = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
+        }
         int nextCount = count + 1;
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".Count", nextCount);
         EntityEvolution.entityData.saveConfig();
@@ -64,6 +71,9 @@ public class EvolutionUtils {
 
     public int getEvolutionCount(LivingEntity livingEntity) {
         String type = livingEntity.getType().toString().toUpperCase();
+        if (livingEntity.getCustomName() != null) {
+            type = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
+        }
         return EntityEvolution.entityData.getConfig().contains("Entity." + type + ".Count") ? EntityEvolution.entityData.getConfig().getInt("Entity." + type + ".Count") : 0;
     }
 
@@ -94,8 +104,11 @@ public class EvolutionUtils {
     private final ArrayList<String> mapAttributeList = new ArrayList<>(Arrays.asList("Health", "Damage", "Armor", "ArmorToughness", "MovementSpeed", "KnockbackResistance"));
     private final ArrayList<String> attributeList = new ArrayList<>();
 
-    public void saveVanillaEntityData(LivingEntity livingEntity) {
+    public void setVanillaEntityData(LivingEntity livingEntity) {
         String type = livingEntity.getType().name().toUpperCase();
+        if (livingEntity.getCustomName() != null) {
+            type = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
+        }
         int max = evolutionAttribute.size();
         for (int a = 0; a<max; a++) {
             String attributeName = evolutionAttribute.get(a);

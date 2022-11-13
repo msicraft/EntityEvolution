@@ -3,8 +3,9 @@ package com.msicraft.entityevolution;
 import com.msicraft.entityevolution.Command.MainCommand;
 import com.msicraft.entityevolution.Command.TabComplete;
 import com.msicraft.entityevolution.Data.EntityData;
-import com.msicraft.entityevolution.Event.EntityDeath;
-import com.msicraft.entityevolution.Event.EntitySpawn;
+import com.msicraft.entityevolution.Event.EvolutionEntityDeath;
+import com.msicraft.entityevolution.Event.EvolutionEntitySpawn;
+import com.msicraft.entityevolution.Inventory.Event.EvolutionSettingEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
@@ -108,8 +109,9 @@ public final class EntityEvolution extends JavaPlugin {
     private PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 
     private void eventsRegister() {
-        pluginManager.registerEvents(new EntityDeath(), this);
-        pluginManager.registerEvents(new EntitySpawn(), this);
+        pluginManager.registerEvents(new EvolutionEntityDeath(), this);
+        pluginManager.registerEvents(new EvolutionEntitySpawn(), this);
+        pluginManager.registerEvents(new EvolutionSettingEvent(), this);
     }
 
     private void createFiles() {

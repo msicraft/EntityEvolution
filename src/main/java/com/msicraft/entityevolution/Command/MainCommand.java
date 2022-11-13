@@ -1,11 +1,16 @@
 package com.msicraft.entityevolution.Command;
 
 import com.msicraft.entityevolution.EntityEvolution;
+import com.msicraft.entityevolution.Inventory.EvolutionSettingInv;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
@@ -35,10 +40,14 @@ public class MainCommand implements CommandExecutor {
                             }
                         }
                     }
-                    case "test" -> {
+                    case "setting" -> {
                         if (args.length == 1) {
-                            for (String a : EntityEvolution.getPlugin().getVanillaMobLastData().keySet()) {
-                                Bukkit.getServer().broadcastMessage(a + " : " + EntityEvolution.getPlugin().getVanillaMobLastData().get(a));
+                            if (sender instanceof Player player) {
+                                if (player.isOp()) {
+                                    EvolutionSettingInv evolutionSettingInv = new EvolutionSettingInv(player);
+                                    player.openInventory(evolutionSettingInv.getInventory());
+                                    evolutionSettingInv.selectInv();
+                                }
                             }
                         }
                     }

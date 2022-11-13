@@ -15,10 +15,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
-public class EntityDeath implements Listener {
+public class EvolutionEntityDeath implements Listener {
 
     private EvolutionUtils utils = new EvolutionUtils();
     private Random random = new Random();
@@ -30,8 +29,13 @@ public class EntityDeath implements Listener {
                 ArrayList<String> registerEntityList = new ArrayList<>(EntityEvolution.getPlugin().getRegisterEntityList());
                 LivingEntity livingEntity = e.getEntity();
                 String entityType = e.getEntityType().name().toUpperCase();
+                String tag = "VanillaEntity";
+                if (livingEntity.getCustomName() != null) {
+                    entityType = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
+                    tag = "CustomEntity";
+                }
                 if (!registerEntityList.contains(entityType) && !utils.getBlackList().contains(entityType)) {
-                    utils.registerBaseEntityData(livingEntity);
+                    utils.registerBaseEntityData(livingEntity, tag);
                 }
                 double chance = random.nextDouble();
                 double evolutionChance = EntityEvolution.getPlugin().getConfig().getDouble("Setting.Evolution-Chance");
@@ -68,7 +72,9 @@ public class EntityDeath implements Listener {
                 if (countS != null) {
                     value = Integer.parseInt(countS);
                 }
-                utils.saveVanillaEntityData(livingEntity);
+                if (EntityEvolution.getPlugin().getConfig().getBoolean("Setting.Death-Entity-Data.Enabled")) {
+                    utils.setVanillaEntityData(livingEntity);
+                }
                 Bukkit.getPluginManager().callEvent(new EvolutionEntityDeathEvent(livingEntity, value));
             }
         }

@@ -20,7 +20,7 @@ public class EvolutionEntityDeathEvent extends Event {
         return livingEntity;
     }
 
-    public int getCount() {
+    public int getEvolutionCount() {
         return count;
     }
 

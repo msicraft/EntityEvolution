@@ -14,7 +14,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EntitySpawn implements Listener {
+public class EvolutionEntitySpawn implements Listener {
 
     private EvolutionUtils utils = new EvolutionUtils();
     private AttributeUtils attributeUtils = new AttributeUtils();
