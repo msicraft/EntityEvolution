@@ -31,6 +31,9 @@ public class EvolutionEntityDeath implements Listener {
                 String entityType = e.getEntityType().name().toUpperCase();
                 String tag = "VanillaEntity";
                 if (livingEntity.getCustomName() != null) {
+                    return;
+                }
+                if (livingEntity.getCustomName() != null) {
                     entityType = livingEntity.getCustomName().toUpperCase().replaceAll("\\s", "_");
                     tag = "CustomEntity";
                 }
@@ -72,9 +75,7 @@ public class EvolutionEntityDeath implements Listener {
                 if (countS != null) {
                     value = Integer.parseInt(countS);
                 }
-                if (EntityEvolution.getPlugin().getConfig().getBoolean("Setting.Death-Entity-Data.Enabled")) {
-                    utils.setVanillaEntityData(livingEntity);
-                }
+                utils.setVanillaEntityData(livingEntity);
                 Bukkit.getPluginManager().callEvent(new EvolutionEntityDeathEvent(livingEntity, value));
             }
         }

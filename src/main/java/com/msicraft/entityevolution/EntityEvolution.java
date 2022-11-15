@@ -3,6 +3,8 @@ package com.msicraft.entityevolution;
 import com.msicraft.entityevolution.Command.MainCommand;
 import com.msicraft.entityevolution.Command.TabComplete;
 import com.msicraft.entityevolution.Data.EntityData;
+import com.msicraft.entityevolution.Data.Tasks.EntityDataTask;
+import com.msicraft.entityevolution.Data.Utils.EntityDataUtil;
 import com.msicraft.entityevolution.Event.EvolutionEntityDeath;
 import com.msicraft.entityevolution.Event.EvolutionEntitySpawn;
 import com.msicraft.entityevolution.Inventory.Event.EvolutionSettingEvent;
@@ -15,11 +17,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
 
 public final class EntityEvolution extends JavaPlugin {
 
@@ -38,6 +44,8 @@ public final class EntityEvolution extends JavaPlugin {
     public HashMap<String, String> getVanillaMobLastData() {
         return vanillaMobLastData;
     }
+
+    private EntityDataUtil entityDataUtil = new EntityDataUtil();
 
     public ArrayList<String> getRegisterEntityList() {
         ArrayList<String> list = new ArrayList<>();
@@ -90,12 +98,36 @@ public final class EntityEvolution extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        entityDataUtil.saveHashMapToYaml();
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getPrefix() + ChatColor.RED +" Plugin Disable");
     }
 
     public void dataFilesReload() {
+        entityDataUtil.saveHashMapToYaml();
         plugin.reloadConfig();
         entityData.reloadConfig();
+        entityDataUtil.loadYamlToHashMap();
+    }
+
+    private void setTask() {
+        cancelTask();
+        Bukkit.getScheduler().runTaskLater(getPlugin(), this::task, 20L);
+    }
+
+    private void cancelTask() {
+        Bukkit.getScheduler().cancelTasks(getPlugin());
+    }
+
+    private void task() {
+        if (getPlugin().getConfig().getBoolean("Setting.Death-Entity-Data.Enabled")) {
+            int entityDataInterval = getPlugin().getConfig().getInt("Setting.Death-Entity-Data.Interval");
+            BukkitTask entityDataTask = new EntityDataTask(getPlugin()).runTaskTimerAsynchronously(getPlugin(), 0, entityDataInterval);
+            if (getPlugin().getConfig().getBoolean("Debug.Enabled")) {
+                ArrayList<Integer> taskList = new ArrayList<>();
+                taskList.add(entityDataTask.getTaskId());
+                Bukkit.getServer().getConsoleSender().sendMessage(getPrefix() + ChatColor.GREEN + " Register Task: " + ChatColor.WHITE + taskList);
+            }
+        }
     }
 
     private void commandsRegister() {

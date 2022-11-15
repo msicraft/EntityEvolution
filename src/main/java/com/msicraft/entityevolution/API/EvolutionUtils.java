@@ -3,16 +3,24 @@ package com.msicraft.entityevolution.API;
 import com.msicraft.entityevolution.API.CustomEvent.EntityEvolutionEvent;
 import com.msicraft.entityevolution.AttributeUtils;
 import com.msicraft.entityevolution.EntityEvolution;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.UUID;
 
 public class EvolutionUtils {
 
@@ -56,6 +64,7 @@ public class EvolutionUtils {
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".BaseArmorToughness", baseArmorToughness);
         EntityEvolution.entityData.getConfig().set("Entity." + type + ".Tag", tag);
         EntityEvolution.entityData.saveConfig();
+        setVanillaEntityData(livingEntity);
     }
 
     public void addEvolutionCount(LivingEntity livingEntity, int count) {
@@ -143,7 +152,7 @@ public class EvolutionUtils {
         return type;
     }
 
-    private String getEncoded(String a) {
+    public String getEncoded(String a) {
         String encodedMessage;
         String encoded = a;
         for (int count = 0; count<3; count++) {
@@ -158,7 +167,7 @@ public class EvolutionUtils {
         return Base64.getEncoder().encodeToString(message);
     }
 
-    private String getDecoded(String a) {
+    public String getDecoded(String a) {
         String decodedMessage;
         String decoded = a;
         for (int count = 0; count<3; count++) {
