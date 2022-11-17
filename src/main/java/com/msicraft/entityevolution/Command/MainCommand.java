@@ -1,10 +1,12 @@
 package com.msicraft.entityevolution.Command;
 
 import com.msicraft.entityevolution.EntityEvolution;
+import com.msicraft.entityevolution.Inventory.EvolutionEntityInfoInv;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class MainCommand implements CommandExecutor {
 
@@ -32,6 +34,16 @@ public class MainCommand implements CommandExecutor {
                             }
                         }
                     }
+                    case "info" -> {
+                        if (args.length == 1) {
+                            if (sender instanceof Player player) {
+                                if (player.isOp()) {
+                                    EvolutionEntityInfoInv evolutionEntityInfoInv = new EvolutionEntityInfoInv(player);
+                                    player.openInventory(evolutionEntityInfoInv.getInventory());
+                                }
+                            }
+                        }
+                    }
                     /*
                     case "setting" -> {
                         if (args.length == 1) {
@@ -44,7 +56,6 @@ public class MainCommand implements CommandExecutor {
                             }
                         }
                     }
-
                      */
                 }
             }

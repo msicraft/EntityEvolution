@@ -7,6 +7,7 @@ import com.msicraft.entityevolution.Data.Tasks.EntityDataTask;
 import com.msicraft.entityevolution.Data.Utils.EntityDataUtil;
 import com.msicraft.entityevolution.Event.EvolutionEntityDeath;
 import com.msicraft.entityevolution.Event.EvolutionEntitySpawn;
+import com.msicraft.entityevolution.Inventory.Event.EvolutionEntityInfoEvent;
 import com.msicraft.entityevolution.Inventory.Event.EvolutionSettingEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -144,6 +145,7 @@ public final class EntityEvolution extends JavaPlugin {
         pluginManager.registerEvents(new EvolutionEntityDeath(), this);
         pluginManager.registerEvents(new EvolutionEntitySpawn(), this);
         pluginManager.registerEvents(new EvolutionSettingEvent(), this);
+        pluginManager.registerEvents(new EvolutionEntityInfoEvent(), this);
     }
 
     private void createFiles() {
