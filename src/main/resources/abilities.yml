@@ -1,0 +1,15 @@
+Ability:
+  LavaPouring:
+    Enabled: false
+    EvolutionCount: 3
+    Chance: 0.5
+  SpeedBuff:
+    Enabled: false
+    BuffLevel: 1
+    EvolutionCount: 1
+    Chance: 0.5
+  DamageBuff:
+    Enabled: false
+    BuffLevel: 1
+    EvolutionCount: 1
+    Chance: 0.5

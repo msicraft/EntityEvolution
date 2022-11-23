@@ -2,6 +2,7 @@ package com.msicraft.entityevolution;
 
 import com.msicraft.entityevolution.Command.MainCommand;
 import com.msicraft.entityevolution.Command.TabComplete;
+import com.msicraft.entityevolution.Data.AbilityData;
 import com.msicraft.entityevolution.Data.EntityData;
 import com.msicraft.entityevolution.Data.Tasks.EntityDataTask;
 import com.msicraft.entityevolution.Data.Utils.EntityDataUtil;
@@ -33,6 +34,7 @@ public final class EntityEvolution extends JavaPlugin {
     private static EntityEvolution plugin;
     protected FileConfiguration config;
     public static EntityData entityData;
+    public static AbilityData abilityData;
 
     public static EntityEvolution getPlugin() {
         return plugin;
@@ -68,9 +70,20 @@ public final class EntityEvolution extends JavaPlugin {
         return list;
     }
 
+    public ArrayList<String> getAbilityList() {
+        ArrayList<String> list = new ArrayList<>();
+        ConfigurationSection section = abilityData.getConfig().getConfigurationSection("Ability");
+        if (section != null) {
+            Set<String> attributes = section.getKeys(false);
+            list.addAll(attributes);
+        }
+        return list;
+    }
+
     @Override
     public void onEnable() {
         entityData = new EntityData(this);
+        abilityData = new AbilityData(this);
         plugin = this;
         createFiles();
         final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : -1;
@@ -108,6 +121,7 @@ public final class EntityEvolution extends JavaPlugin {
         plugin.reloadConfig();
         entityData.reloadConfig();
         entityDataUtil.loadYamlToHashMap();
+        setTask();
     }
 
     private void setTask() {
@@ -122,11 +136,11 @@ public final class EntityEvolution extends JavaPlugin {
     private void task() {
         if (getPlugin().getConfig().getBoolean("Setting.Death-Entity-Data.Enabled")) {
             int entityDataInterval = getPlugin().getConfig().getInt("Setting.Death-Entity-Data.Interval");
-            BukkitTask entityDataTask = new EntityDataTask(getPlugin()).runTaskTimerAsynchronously(getPlugin(), 0, entityDataInterval);
+            BukkitTask entityDataTask = new EntityDataTask(getPlugin()).runTaskTimer(getPlugin(), 0, entityDataInterval);
             if (getPlugin().getConfig().getBoolean("Debug.Enabled")) {
                 ArrayList<Integer> taskList = new ArrayList<>();
                 taskList.add(entityDataTask.getTaskId());
-                Bukkit.getServer().getConsoleSender().sendMessage(getPrefix() + ChatColor.GREEN + " Register Task: " + ChatColor.WHITE + taskList);
+                Bukkit.getServer().getConsoleSender().sendMessage(getPrefix() + ChatColor.GREEN + " Register Task: " + ChatColor.WHITE + taskList.size());
             }
         }
     }
