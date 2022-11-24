@@ -65,7 +65,7 @@ public class EvolutionEntityInfoInv implements InventoryHolder {
             int evolutionCount = entityDataUtil.getEntityEvolutionCount(entityName);
             String tag = entityDataUtil.getEntityTag(entityName);
             loreList.add(ChatColor.GREEN + "Name: " + ChatColor.WHITE + entityName);
-            loreList.add(ChatColor.GREEN + "Tag: " + ChatColor.WHITE + tag);
+            loreList.add(ChatColor.GREEN + "Type: " + ChatColor.WHITE + tag);
             loreList.add("");
             loreList.add(ChatColor.GREEN + "Base Health: " + ChatColor.WHITE + baseHealth);
             loreList.add(ChatColor.GREEN + "Base Damage: " + ChatColor.WHITE + baseDamage);

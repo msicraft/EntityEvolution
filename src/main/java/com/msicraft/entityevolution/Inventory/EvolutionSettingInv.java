@@ -46,6 +46,20 @@ public class EvolutionSettingInv implements InventoryHolder {
         evolutionSettingInv.setItem(3, setItem);
     }
 
+    public void settingEntity(String entityName) {
+        evolutionSettingInv.clear();
+        normalEntitySettingInv();
+        ItemStack itemStack = new ItemStack(Material.BOOK, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(entityName);
+    }
+
+    private void normalEntitySettingInv() {
+        ItemStack itemStack;
+        itemStack = setNormalItemStack(Material.BARRIER, ChatColor.RED + "Back", normalLoreList, "EE-Setting-Back");
+        evolutionSettingInv.setItem(45, itemStack);
+    }
+
     public void setEntityListInv() {
         evolutionSettingInv.clear();
         pageSettings();

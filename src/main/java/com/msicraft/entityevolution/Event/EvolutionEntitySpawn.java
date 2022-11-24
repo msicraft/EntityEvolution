@@ -4,6 +4,7 @@ import com.msicraft.entityevolution.API.CustomEvent.EvolutionEntitySpawnEvent;
 import com.msicraft.entityevolution.API.EvolutionUtils;
 import com.msicraft.entityevolution.AttributeUtils;
 import com.msicraft.entityevolution.EntityEvolution;
+import com.msicraft.entityevolution.EvolutionSkills.EvolutionSkillUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
@@ -90,6 +91,21 @@ public class EvolutionEntitySpawn implements Listener {
                         utils.setAttribute(livingEntity, attributeName, type, count, value, check);
                     }
                     Bukkit.getPluginManager().callEvent(new EvolutionEntitySpawnEvent(livingEntity, count, e.getSpawnReason(), true));
+                }
+            }
+        }
+    }
+
+    private EvolutionSkillUtil skillUtil = new EvolutionSkillUtil();
+
+    @EventHandler
+    public void onApplyAbilityTag(CreatureSpawnEvent e) {
+        LivingEntity livingEntity = e.getEntity();
+        String entityType = e.getEntityType().name().toUpperCase();
+        if (EntityEvolution.entityData.getConfig().contains("Entity." + entityType)) {
+            ArrayList<String> abilityList = new ArrayList<>(EntityEvolution.entityData.getConfig().getStringList("Entity." + entityType + ".Ability"));
+            if (!abilityList.isEmpty()) {
+                for (String tag : abilityList) {
                 }
             }
         }

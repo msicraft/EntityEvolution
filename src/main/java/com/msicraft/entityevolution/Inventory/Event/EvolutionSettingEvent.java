@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EvolutionSettingEvent implements Listener {
@@ -68,11 +69,14 @@ public class EvolutionSettingEvent implements Listener {
                                     evolutionSettingInv.setEntityListInv();
                                 }
                                 case "EE-Close" -> player.closeInventory();
-                                case "EE-EntitySetting" -> {
+                                case "EE-EntitySetting", "EE-Setting-Back" -> {
                                     player.closeInventory();
                                     player.openInventory(evolutionSettingInv.getInventory());
                                     evolutionSettingInv.setEntityListInv();
                                 }
+                            }
+                            if (EntityEvolution.getPlugin().getRegisterEntityList().contains(dataArg)) {
+                                player.sendMessage("test: " + dataArg);
                             }
                         }
                     }

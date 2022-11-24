@@ -17,7 +17,7 @@ public class TabComplete implements TabCompleter {
                 arguments.add("help");
                 arguments.add("reload");
                 arguments.add("info");
-                //arguments.add("setting");
+                arguments.add("setting");
                 return arguments;
             }
         }

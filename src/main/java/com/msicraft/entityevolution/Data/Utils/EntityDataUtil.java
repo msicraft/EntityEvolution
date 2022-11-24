@@ -13,7 +13,7 @@ public class EntityDataUtil {
     public void loadYamlToHashMap() {
         ConfigurationSection section = EntityEvolution.entityData.getConfig().getConfigurationSection("Entity");
         if (section == null) {
-            Bukkit.getConsoleSender().sendMessage(EntityEvolution.getPrefix() + ChatColor.RED + " Invalid EntityData.yml");
+            //Bukkit.getConsoleSender().sendMessage(EntityEvolution.getPrefix() + ChatColor.RED + " Invalid EntityData.yml");
             return;
         }
         for (String entityName : section.getKeys(false)) {
