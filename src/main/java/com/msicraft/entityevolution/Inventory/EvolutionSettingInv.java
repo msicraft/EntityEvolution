@@ -1,6 +1,7 @@
 package com.msicraft.entityevolution.Inventory;
 
 import com.msicraft.entityevolution.EntityEvolution;
+import com.msicraft.entityevolution.EvolutionSkills.EvolutionSkillUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -31,6 +32,7 @@ public class EvolutionSettingInv implements InventoryHolder {
     public EvolutionSettingInv(Player player) {
         evolutionSettingInv = Bukkit.createInventory(player, 54, "Entity Evolution Setting");
         page_button_size();
+        abilityMaxPageSize();
     }
 
     private List<String> normalLoreList = new ArrayList<>();
@@ -40,21 +42,78 @@ public class EvolutionSettingInv implements InventoryHolder {
         ItemStack setItem;
         setItem = setNormalItemStack(Material.BARRIER, ChatColor.RED + "Close", normalLoreList, "EE-Close");
         evolutionSettingInv.setItem(0, setItem);
-        //
         normalLoreList.add(ChatColor.GREEN + "Set Entity Evolution");
         setItem = setNormalItemStack(Material.BOOK, ChatColor.WHITE + "Entity Setting", normalLoreList, "EE-EntitySetting");
         evolutionSettingInv.setItem(3, setItem);
+        if (!normalLoreList.isEmpty()) {
+            normalLoreList.clear();
+        }
+        setItem = setNormalItemStack(Material.ANVIL, ChatColor.WHITE + "Equipment Evolution", normalLoreList, "EE-EquipEvolution");
+        //evolutionSettingInv.setItem(5, setItem);
     }
 
-    public void settingEntity(String entityName) {
+    private EvolutionSkillUtil evolutionSkillUtil = new EvolutionSkillUtil();
+
+    private static final int[] entityEditSlot = {19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43};
+
+    public HashMap<String, Integer> abilityPage = new HashMap<>();
+    public HashMap<String, Integer> abilityMaxPage = new HashMap<>();
+
+    private int abilityMaxSize = evolutionSkillUtil.getAbilityList().size();
+
+    public void settingEntityEditInv() {
         evolutionSettingInv.clear();
-        normalEntitySettingInv();
-        ItemStack itemStack = new ItemStack(Material.BOOK, 1);
+        normalEntityBackButton();
+        ItemStack itemStack;
+        itemStack = setNormalItemStack(Material.BLAZE_POWDER, ChatColor.WHITE + "Ability Edit", normalLoreList, "EE-EntityEdit-Ability");
+        evolutionSettingInv.setItem(entityEditSlot[0], itemStack);
+    }
+
+    public void setEditEntity(Player player) {
+        String entityName = null;
+        if (EntityEvolution.getPlugin().getLastEditEntity().containsKey(player.getUniqueId())) {
+            entityName = EntityEvolution.getPlugin().getLastEditEntity().get(player.getUniqueId());
+        }
+        if (entityName == null) {
+            player.closeInventory();
+            player.sendMessage(ChatColor.RED + " Invalid entity name");
+        }
+        ItemStack itemStack;
+        itemStack = new ItemStack(Material.BOOK, 1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(entityName);
+        itemStack.setItemMeta(itemMeta);
+        evolutionSettingInv.setItem(4, itemStack);
     }
 
-    private void normalEntitySettingInv() {
+    public void settingEntityAbilityEdit() {
+        evolutionSettingInv.clear();
+        abilityPageSetting();
+        int page_num = 0;
+        if (abilityPage.containsKey("page")) {
+            page_num = abilityPage.get("page");
+        }
+        int max = entityEditSlot.length;
+        int lastCount = page_num*max;
+        int count = 0;
+        ItemStack itemStack;
+        normalLoreList.add(ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE +  "edit");
+        normalLoreList.add(ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "clear");
+        for (int a = lastCount; a<abilityMaxSize; a++) {
+            int slot = entityEditSlot[count];
+            String abilityName = evolutionSkillUtil.getAbilityList().get(a);
+            itemStack = setNormalItemStack(Material.PAPER, abilityName, normalLoreList, abilityName);
+            normalLoreList.add(ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE +  "edit");
+            normalLoreList.add(ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "clear");
+            evolutionSettingInv.setItem(slot, itemStack);
+            count++;
+            if (count >= max) {
+                break;
+            }
+        }
+    }
+
+    private void normalEntityBackButton() {
         ItemStack itemStack;
         itemStack = setNormalItemStack(Material.BARRIER, ChatColor.RED + "Back", normalLoreList, "EE-Setting-Back");
         evolutionSettingInv.setItem(45, itemStack);
@@ -89,6 +148,9 @@ public class EvolutionSettingInv implements InventoryHolder {
                 }
             }
         }
+        ItemStack setItem;
+        setItem = setNormalItemStack(Material.BARRIER, ChatColor.RED + "Back", normalLoreList, "EE-Back");
+        evolutionSettingInv.setItem(45, setItem);
     }
 
     private ItemStack setNormalItemStack(Material material,String itemName, List<String> loreList, String dataTag) {
@@ -112,6 +174,24 @@ public class EvolutionSettingInv implements InventoryHolder {
     private void pageSettings() {
         page_book();
         basic_button();
+    }
+
+    private void abilityPageSetting() {
+        abilityPageBook();;
+        abilityBasicButton();
+    }
+
+    private void abilityBasicButton() {
+        ItemStack itemStack;
+        itemStack = setNormalItemStack(Material.BARRIER, ChatColor.RED + "Back", normalLoreList, "EE-EntityEdit-Back");
+        itemStack.setItemMeta(itemStack.getItemMeta());
+        evolutionSettingInv.setItem(45, itemStack);
+        itemStack = setNormalItemStack(Material.ARROW, "Previous", normalLoreList, "EE-AbilityEdit-Previous");
+        itemStack.setItemMeta(itemStack.getItemMeta());
+        evolutionSettingInv.setItem(48, itemStack);
+        itemStack = setNormalItemStack(Material.ARROW, "Next", normalLoreList, "EE-AbilityEdit-Next");
+        itemStack.setItemMeta(itemStack.getItemMeta());
+        evolutionSettingInv.setItem(50, itemStack);
     }
 
     private void basic_button() {
@@ -145,6 +225,24 @@ public class EvolutionSettingInv implements InventoryHolder {
     private void page_button_size() {
         int page_count = maxSize/45;
         max_page.put("max-page", page_count);
+    }
+
+    private void abilityPageBook() {
+        ItemStack itemStack = new ItemStack(Material.BOOK, 1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        String get_page = String.valueOf(abilityPage.get("page"));
+        if (get_page.equals("null")) {
+            get_page = "0";
+        }
+        int page = Integer.parseInt(get_page) + 1;
+        itemMeta.setDisplayName("Page: " + page);
+        itemStack.setItemMeta(itemMeta);
+        evolutionSettingInv.setItem(49, itemStack);
+    }
+
+    private void abilityMaxPageSize() {
+        int page_count = abilityMaxSize/entityEditSlot.length;
+        abilityMaxPage.put("max-page", page_count);
     }
 
     @Override

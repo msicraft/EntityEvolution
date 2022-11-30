@@ -1,6 +1,7 @@
 package com.msicraft.entityevolution.Command;
 
 import com.msicraft.entityevolution.EntityEvolution;
+import com.msicraft.entityevolution.EvolutionSkills.Abilities.LavaPouring;
 import com.msicraft.entityevolution.Inventory.EvolutionEntityInfoInv;
 import com.msicraft.entityevolution.Inventory.EvolutionSettingInv;
 import org.bukkit.ChatColor;
@@ -53,6 +54,14 @@ public class MainCommand implements CommandExecutor {
                                     player.openInventory(evolutionSettingInv.getInventory());
                                     evolutionSettingInv.selectInv();
                                 }
+                            }
+                        }
+                    }
+                    case "cast" -> {
+                        if (args.length == 1) {
+                            if (sender instanceof Player player) {
+                                LavaPouring lavaPouring = new LavaPouring();
+                                lavaPouring.castLavaPouring(player.getLocation());
                             }
                         }
                     }

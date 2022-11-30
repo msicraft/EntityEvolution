@@ -1,16 +1,18 @@
 Ability:
   LavaPouring:
     Enabled: false
-    RemoveDelay: 60
+    RemoveDelay: 40
     EvolutionCount: 3
     Chance: 0.2
   SpeedBuff:
     Enabled: false
     BuffLevel: 1
+    BuffDuration: -1
     EvolutionCount: 1
     Chance: 0.5
   DamageBuff:
     Enabled: false
     BuffLevel: 1
+    BuffDuration: -1
     EvolutionCount: 1
     Chance: 0.5

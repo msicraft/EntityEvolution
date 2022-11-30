@@ -10,6 +10,7 @@ import com.msicraft.entityevolution.Event.EvolutionEntityDeath;
 import com.msicraft.entityevolution.Event.EvolutionEntitySpawn;
 import com.msicraft.entityevolution.Inventory.Event.EvolutionEntityInfoEvent;
 import com.msicraft.entityevolution.Inventory.Event.EvolutionSettingEvent;
+import com.msicraft.entityevolution.Inventory.EvolutionSettingInv;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
@@ -24,10 +25,7 @@ import org.bukkit.scheduler.BukkitTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public final class EntityEvolution extends JavaPlugin {
 
@@ -48,6 +46,11 @@ public final class EntityEvolution extends JavaPlugin {
         return vanillaMobLastData;
     }
 
+    private HashMap<UUID, String> lastEditEntity = new HashMap<UUID, String>();
+    public HashMap<UUID, String> getLastEditEntity() {
+        return lastEditEntity;
+    }
+
     private EntityDataUtil entityDataUtil = new EntityDataUtil();
 
     public ArrayList<String> getRegisterEntityList() {
@@ -63,16 +66,6 @@ public final class EntityEvolution extends JavaPlugin {
     public ArrayList<String> getEvolutionAttributes() {
         ArrayList<String> list = new ArrayList<>();
         ConfigurationSection section = getPlugin().getConfig().getConfigurationSection("Evolution-Setting");
-        if (section != null) {
-            Set<String> attributes = section.getKeys(false);
-            list.addAll(attributes);
-        }
-        return list;
-    }
-
-    public ArrayList<String> getAbilityList() {
-        ArrayList<String> list = new ArrayList<>();
-        ConfigurationSection section = abilityData.getConfig().getConfigurationSection("Ability");
         if (section != null) {
             Set<String> attributes = section.getKeys(false);
             list.addAll(attributes);
@@ -120,6 +113,7 @@ public final class EntityEvolution extends JavaPlugin {
         entityDataUtil.saveHashMapToYaml();
         plugin.reloadConfig();
         entityData.reloadConfig();
+        abilityData.reloadConfig();
         entityDataUtil.loadYamlToHashMap();
         setTask();
     }
