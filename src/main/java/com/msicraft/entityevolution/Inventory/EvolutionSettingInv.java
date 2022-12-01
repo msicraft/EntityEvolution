@@ -98,13 +98,11 @@ public class EvolutionSettingInv implements InventoryHolder {
         int count = 0;
         ItemStack itemStack;
         normalLoreList.add(ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE +  "edit");
-        normalLoreList.add(ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "clear");
+        normalLoreList.add(ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "delete");
         for (int a = lastCount; a<abilityMaxSize; a++) {
             int slot = entityEditSlot[count];
             String abilityName = evolutionSkillUtil.getAbilityList().get(a);
             itemStack = setNormalItemStack(Material.PAPER, abilityName, normalLoreList, abilityName);
-            normalLoreList.add(ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE +  "edit");
-            normalLoreList.add(ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "clear");
             evolutionSettingInv.setItem(slot, itemStack);
             count++;
             if (count >= max) {

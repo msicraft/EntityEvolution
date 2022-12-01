@@ -16,4 +16,27 @@ public class EvolutionSkillUtil{
         return list;
     }
 
+    public String getAbilityCastType(String abilityData) {
+        String abilityCastType;
+        String[] data = abilityData.split(":");
+        abilityCastType = data[0];
+        return abilityCastType;
+    }
+
+    public String getAbilityName(String abilityData) {
+        String abilityName;
+        String[] data = abilityData.split(":");
+        abilityName = data[1];
+        return abilityName;
+    }
+
+    public void saveAbilityDataToEntity(String entityName, String abilityType, String abilityName) {
+        if (EntityEvolution.entityData.getConfig().contains("Entity." + entityName)) {
+            ArrayList<String> abilityList = new ArrayList<>(EntityEvolution.entityData.getConfig().getStringList("Entity." + entityName + ".Ability"));
+            String data = abilityType + ":" + abilityName;
+            abilityList.add(data);
+            EntityEvolution.entityData.getConfig().set("Entity." + entityName + ".Ability", abilityList);
+        }
+    }
+
 }
